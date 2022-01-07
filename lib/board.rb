@@ -16,6 +16,29 @@ class Board
     end
   end
 
+  def set_starting_pieces
+    set_black_pieces('black', [1, 0])
+    set_white_pieces('white', [6, 7])
+  end
+
+  def set_pieces(color, rows)
+    pawn_row, special_row = rows
+    @board[pawn_row].each_with_index { |_square, index| place_piece(Pawn.new(color, [pawn_row, index])) }
+    # Rooks
+    place_piece(Rook.new(color, [special_row, 0]))
+    place_piece(Rook.new(color, [special_row, 7]))
+    # Knights
+    place_piece(Knight.new(color, [special_row, 1]))
+    place_piece(Knight.new(color, [special_row, 6]))
+    # Bishops
+    place_piece(Bishop.new(color, [special_row, 2]))
+    place_piece(Bishop.new(color, [special_row, 5]))
+    # Queen
+    place_piece(Queen.new(color, [special_row, 3]))
+    # King
+    place_piece(King.new(color, [special_row, 4]))
+  end
+
   def place_piece(piece)
     y, x = piece.position
     @board[x][y] = piece
