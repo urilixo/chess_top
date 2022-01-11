@@ -21,6 +21,11 @@ class Board
     set_white_pieces('white', [6, 7])
   end
 
+  def return_piece(position)
+    row, col = position
+    @board[rowl][col] if @board[row][col].instance_of?(Piece)
+  end
+
   def set_pieces(color, rows)
     pawn_row, special_row = rows
     @board[pawn_row].each_with_index { |_square, index| place_piece(Pawn.new(color, [pawn_row, index])) }
