@@ -9,8 +9,10 @@ class Game
   end
 
   def player_name(name)
-    return gets.chomp if name.nil?
-
+    if name.nil?
+      puts 'Please type player name: '
+      return gets.chomp if name.nil?
+    end
     name
   end
 end
