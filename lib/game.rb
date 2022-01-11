@@ -13,4 +13,14 @@ class Game
   def end_turn
     @current_turn == 'white' ? 'black' : 'white'
   end
+
+  def make_move
+    player = @player1.color == @current_turn ? @player1 : @player2
+    puts "#{player.name}'s turn, pick a piece to move:"
+    starting_pos = select_piece(gets.chomp)
+    puts "Valid movements are: "
+    puts "Pick a place to move"
+    final_pos = valid_move(gets.chomp)
+    @board.move_piece(starting_pos, final_pos)
+  end
 end
