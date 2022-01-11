@@ -30,4 +30,8 @@ class Game
 
     @piece
   end
+
+  def return_valid(piece)
+    piece.return_valid(@board)
+  end
 end
