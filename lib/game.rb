@@ -9,4 +9,8 @@ class Game
     @board = Board.new
     @current_turn = 'white'
   end
+
+  def end_turn
+    @current_turn == 'white' ? 'black' : 'white'
+  end
 end
