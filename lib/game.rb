@@ -21,6 +21,13 @@ class Game
     puts "Valid movements are: "
     puts "Pick a place to move"
     final_pos = valid_move(gets.chomp)
-    @board.move_piece(starting_pos, final_pos)
+    @board.move_piece(starting_pos.position, final_pos)
+  end
+
+  def select_piece(position)
+    piece = @board.return_piece(position)
+    return puts 'No piece found, please try again.' and select_piece(gets.chomp) if piece.nil?
+
+    @piece
   end
 end
