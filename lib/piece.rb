@@ -10,4 +10,9 @@ class Piece
     @valid_movements = []
     @starting_position = true
   end
+
+  def same_color?(position, board)
+    x, y = position
+    board[x][y] == @color
+  end
 end
