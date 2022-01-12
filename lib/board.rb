@@ -23,7 +23,7 @@ class Board
 
   def return_piece(position)
     row, col = position
-    @board[rowl][col] if @board[row][col].instance_of?(Piece)
+    @board[row][col] if @board[row][col].is_a?(Piece)
   end
 
   def set_pieces(color, rows)
@@ -45,7 +45,7 @@ class Board
   end
 
   def place_piece(piece)
-    y, x = piece.position
+    x, y = piece.position
     @board[x][y] = piece
   end
 
@@ -57,7 +57,7 @@ class Board
 
   def background_color(piece)
     x, y = piece.position
-    (x + y).even? ? piece.value.black.on_white : piece.value.white.on_black
+    (x + y).even? ? piece.symbol.black.on_white : piece.symbol.white.on_black
   end
 
   def print_board
@@ -65,7 +65,7 @@ class Board
     @board.each do |row|
       temp_row = []
       row.each do |cell|
-        cell = cell.instance_of?(Piece) ? background_color(cell) : cell
+        cell = cell.is_a?(Piece) ? background_color(cell) : cell
         temp_row << cell
       end
       printed << temp_row
