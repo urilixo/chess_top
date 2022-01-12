@@ -1,8 +1,12 @@
 class Rook < Piece
+  def initialize(color, position)
+    super
+    @symbol = @color == 'white' ? ' ♜ ' : ' ♖ '
+  end
+
   def return_valid(board)
     row, col = @position
-    valid_moves = []
-    valid_moves << ortogonal(row, col, board)
+    valid_moves = ortogonal(row, col, board)
     @valid_movements = valid_moves
   end
 
