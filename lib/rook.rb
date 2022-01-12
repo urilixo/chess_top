@@ -14,7 +14,7 @@ class Rook < Piece
     if row.positive?
       (row - 1).downto(0).each do |cell|
         if board[cell][col].is_a?(Piece)
-          valid_moves << [cell, col] if board[cell][col].color != @color
+          valid_moves << [cell, col] unless same_color?([cell, col], board)
           break
         end
 
@@ -24,7 +24,7 @@ class Rook < Piece
     if row < 7
       (row + 1).upto(7).each do |cell|
         if board[cell][col].is_a?(Piece)
-          valid_moves << [cell, col] if board[cell][col].color != @color
+          valid_moves << [cell, col] unless same_color?([cell, col], board)
           break
         end
 
@@ -34,7 +34,7 @@ class Rook < Piece
     if col.positive?
       (col - 1).downto(0).each do |cell|
         if board[row][cell].is_a?(Piece)
-          valid_moves << [row, cell] if board[row][cell].color != @color
+          valid_moves << [row, cell] unless same_color?([row, cell], board)
           break
         end
 
@@ -44,7 +44,7 @@ class Rook < Piece
     if col < 7
       (col + 1).upto(7).each do |cell|
         if board[row][cell].is_a?(Piece)
-          valid_moves << [row, cell] if board[row][cell].color != @color
+          valid_moves << [row, cell] unless same_color?([row, cell], board)
           break
         end
 
