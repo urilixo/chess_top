@@ -17,21 +17,40 @@ class Game
   def make_move
     player = @player1.color == @current_turn ? @player1 : @player2
     puts "#{player.name}'s turn, pick a piece to move:"
-    starting_pos = select_piece(gets.chomp)
-    puts "Valid movements are: "
-    puts "Pick a place to move"
-    final_pos = valid_move(gets.chomp)
-    @board.move_piece(starting_pos.position, final_pos)
+    selected_piece = select_piece(gets.chomp)
+    starting_pos = selected_piece.position
+    moves = return_valid(selected_piece)
+    puts 'Valid movements are: '
+    moves.each { |move| p move}
+    valid_move(selected_piece)
+    @board.move_piece(starting_pos, selected_piece)
+  end
+
+  def valid_move(piece)
+    puts 'Pick a place to move'
+    input = gets.chomp
+    input = input.split(',').map(&:to_i)
+    unless piece.valid_movements.include?(input)
+      puts 'Invalid move, please try again'
+      return valid_move(piece)
+    end
+    piece.position = input
   end
 
   def select_piece(position)
+    begin
+      position = position.split(',').map(&:to_i)
+    rescue NoMethodError
+      puts 'Input a value in the format number,number. E.g. 2,7'
+    end
     piece = @board.return_piece(position)
-    return puts 'No piece found, please try again.' and select_piece(gets.chomp) if piece.nil?
+    return 'No piece found, please try again.' && select_piece(gets.chomp) if piece.nil?
 
-    @piece
+    piece
   end
 
   def return_valid(piece)
-    piece.return_valid(@board)
+    #binding.pry
+    piece.return_valid(@board.board)
   end
 end
