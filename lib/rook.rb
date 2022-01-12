@@ -1,10 +1,9 @@
 class Rook < Piece
-  require 'pry-byebug'
   def return_valid(board)
     row, col = @position
     valid_moves = []
     valid_moves << ortogonal(row, col, board)
-    p valid_moves
+    @valid_movements = valid_moves
   end
 
   def ortogonal(row, col, board, valid_moves = [])
