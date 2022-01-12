@@ -2,6 +2,7 @@
 
 class Piece
   attr_accessor :position, :color, :valid_movements
+  attr_reader :symbol
 
   def initialize(color, position)
     @color = color
