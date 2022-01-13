@@ -1,7 +1,7 @@
 class Rook < Piece
   def initialize(color, position)
     super
-    @symbol = @color == 'white' ? ' ♜ ' : ' ♖ '
+    @symbol = @color == 'white' ? ' ♖ ' : ' ♜ '
   end
 
   def return_valid(board)
