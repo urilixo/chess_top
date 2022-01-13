@@ -13,6 +13,8 @@ class Piece
 
   def same_color?(position, board)
     x, y = position
-    board[x][y] == @color
+    return unless board[x][y].is_a?(Piece)
+
+    board[x][y].color == @color
   end
 end
