@@ -7,17 +7,17 @@ class Game
     @player1 = Player.new('white', player1)
     @player2 = Player.new('black', player2)
     @board = Board.new
-    @current_turn = 'white'
+    @current_turn = @player1
   end
 
   def end_turn
-    @current_turn == 'white' ? 'black' : 'white'
+    @current_turn == @player1 ? @player2 : @player1
   end
 
   def make_move
     player = @player1.color == @current_turn ? @player1 : @player2
     puts "#{player.name}'s turn, pick a piece to move:"
-    selected_piece = select_piece(gets.chomp)
+    selected_piece = @current_turn.select_piece(gets.chomp, board)
     starting_pos = selected_piece.position
     moves = return_valid(selected_piece)
     puts 'Valid movements are: '
