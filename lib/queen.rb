@@ -3,5 +3,10 @@ class Queen < Piece
     super
     @symbol = @color == 'white' ? ' ♕ ' : ' ♛ '
   end
+
+  def movement(row, col, board)
+    directions = [[-1, 0], [1, 0], [0, -1], [0, 1],[-1, -1], [-1, 1], [1, 1], [1, -1]]
+    directions.each { |cell| find_edge(row, col, cell, board)}
+  end
 end
 
