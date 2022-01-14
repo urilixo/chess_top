@@ -6,51 +6,12 @@ class Rook < Piece
 
   def return_valid(board)
     row, col = @position
-    valid_moves = movement(row, col, board)
-    @valid_movements = valid_moves
+    movement(row, col, board)
+    @valid_movements
   end
 
-  def movement(row, col, board, valid_moves = [])
-    if row.positive?
-      (row - 1).downto(0).each do |cell|
-        if board[cell][col].is_a?(Piece)
-          valid_moves << [cell, col] unless same_color?([cell, col], board)
-          break
-        end
-
-        valid_moves << [cell, col]
-      end
-    end
-    if row < 7
-      (row + 1).upto(7).each do |cell|
-        if board[cell][col].is_a?(Piece)
-          valid_moves << [cell, col] unless same_color?([cell, col], board)
-          break
-        end
-
-        valid_moves << [cell, col]
-      end
-    end
-    if col.positive?
-      (col - 1).downto(0).each do |cell|
-        if board[row][cell].is_a?(Piece)
-          valid_moves << [row, cell] unless same_color?([row, cell], board)
-          break
-        end
-
-        valid_moves << [row, cell]
-      end
-    end
-    if col < 7
-      (col + 1).upto(7).each do |cell|
-        if board[row][cell].is_a?(Piece)
-          valid_moves << [row, cell] unless same_color?([row, cell], board)
-          break
-        end
-
-        valid_moves << [row, cell]
-      end
-    end
-    valid_moves
+  def movement(row, col, board)
+    directions = [[-1, 0], [1, 0], [0, -1], [0, 1]]
+    directions.each { |cell| find_edge(row, col, cell, board)}
   end
 end
