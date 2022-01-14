@@ -6,11 +6,11 @@ class Knight < Piece
 
   def return_valid(board)
     row, col = @position
-    valid_moves = l_shape(row, col, board)
+    valid_moves = movement(row, col, board)
     @valid_movements = valid_moves
   end
 
-  def l_shape(row, col, board)
+  def movement(row, col, board)
     valid = []
     places = [[-1, -2], [-2, -1], [-2, 1], [-1, 2], [1, 2], [2, 1], [2, -1], [1, -2]]
     places.each do |cell|

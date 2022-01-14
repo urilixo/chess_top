@@ -6,11 +6,11 @@ class Rook < Piece
 
   def return_valid(board)
     row, col = @position
-    valid_moves = orthogonal(row, col, board)
+    valid_moves = movement(row, col, board)
     @valid_movements = valid_moves
   end
 
-  def orthogonal(row, col, board, valid_moves = [])
+  def movement(row, col, board, valid_moves = [])
     if row.positive?
       (row - 1).downto(0).each do |cell|
         if board[cell][col].is_a?(Piece)
