@@ -37,22 +37,10 @@ class Game
     piece.position = input
   end
 
-  def select_piece(position)
-    begin
-      position = position.split(',').map(&:to_i)
-    rescue NoMethodError
-      puts 'Input a value in the format number,number. E.g. 2,7'
-    end
-    piece = @board.return_piece(position)
-    return 'No piece found, please try again.' && select_piece(gets.chomp) if piece.nil?
-
-    piece
-  end
-
   def update_all_movements
     @board.board.each do |cell|
       next unless cell.is_a?(Piece)
-      
+
       cell.return_valid(@board.board)
     end
   end
