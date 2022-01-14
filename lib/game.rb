@@ -49,6 +49,14 @@ class Game
     piece
   end
 
+  def update_all_movements
+    @board.board.each do |cell|
+      next unless cell.is_a?(Piece)
+      
+      cell.return_valid(@board.board)
+    end
+  end
+
   def return_valid(piece)
     #binding.pry
     piece.return_valid(@board.board)
