@@ -1,9 +1,12 @@
 class Board
   require 'colorize'
+  require 'yaml'
   require_relative 'piece'
+  attr_accessor :kings
   attr_reader :board
 
   def initialize(rows: 8, columns: 8)
+    @kings = []
     new_board(rows, columns)
   end
 
@@ -47,17 +50,24 @@ class Board
   def place_piece(piece)
     x, y = piece.position
     @board[x][y] = piece
+    @kings << piece if piece.is_a?(King)
   end
 
   def move_piece(before, after)
     place_piece(after)
-    y, x = before
+    x, y = before
     @board[x][y] = (x + y).even? ? '   '.on_white : '   '.on_black
   end
 
   def background_color(piece)
     x, y = piece.position
     (x + y).even? ? piece.symbol.black.on_white : piece.symbol.white.on_black
+  end
+
+  def find_king(color)
+    @kings.each do |king|
+      king if king.color == color
+    end
   end
 
   def print_board
