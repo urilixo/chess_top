@@ -41,36 +41,25 @@ class Game
   def make_move
     player = @player1.color == @current_turn ? @player1 : @player2
     puts "#{player.name}'s turn, pick a piece to move:"
-    selected_piece = @current_turn.select_piece(gets.chomp, board)
-    starting_pos = selected_piece.position
-    moves = return_valid(selected_piece)
+    selected_piece, starting_pos = @current_turn.select_piece(gets.chomp, @board)
+    moves = return_valid(selected_piece, starting_pos)
     puts 'Valid movements are: '
-    moves.each { |move| p move}
-    valid_move(selected_piece)
-    @board.move_piece(starting_pos, selected_piece)
+    moves.each { |move| p move }
+    selected_move = valid_move(selected_piece)
+    @board.move_piece(starting_pos, selected_move)
   end
 
   def valid_move(piece)
     puts 'Pick a place to move'
     input = gets.chomp
     input = input.split(',').map(&:to_i)
-    unless piece.valid_movements.include?(input)
-      puts 'Invalid move, please try again'
-      return valid_move(piece)
-    end
-    piece.position = input
+    return input if piece.valid_movements.include?(input)
+
+    puts 'Invalid move, please try again'
+    valid_move(piece)
   end
 
-  def update_all_movements
-    @board.board.each do |cell|
-      next unless cell.is_a?(Piece)
-
-      cell.return_valid(@board.board)
-    end
-  end
-
-  def return_valid(piece)
-    #binding.pry
-    piece.return_valid(@board.board)
+  def return_valid(piece, position)
+    piece.return_valid(@board, position)
   end
 end
