@@ -17,11 +17,20 @@ class Board
     end
   end
 
+  def save_board_state
+    @board_state = @board.map(&:dup)
+  end
+
+  def load_board_state
+    @board = @board_state.map(&:dup)
+  end
+
   def set_starting_pieces
     set_black_pieces('black', [1, 0])
     set_white_pieces('white', [6, 7])
   end
-
+  
+  # TODO: Give out error if cell doesn't contain a Piece
   def return_piece(position)
     row, col = position
     @board[row][col] if @board[row][col].is_a?(Piece)
