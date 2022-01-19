@@ -69,7 +69,19 @@ class Board
   end
 
   def background_color(piece, row, col)
-    (row + col).even? ? piece.symbol.black.on_white : piece.symbol.white.on_black
+    if piece.nil?
+      return @board[row][col] = (row + col).even? ? '   '.on_white : '   '.on_black
+    end
+
+    @board[row][col] = (row + col).even? ? piece.symbol.black.on_white : piece.symbol.white.on_black
+  end
+
+  def selection_color(piece, row, col)
+    if piece.nil?
+      return @board[row][col] = (row + col).even? ? '   '.on_light_yellow : '   '.on_yellow
+    end
+
+    @board[row][col] = (row + col).even? ? piece.symbol.black.on_yellow : piece.symbol.white.on_yellow
   end
 
   def find_king(color)
