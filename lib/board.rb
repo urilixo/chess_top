@@ -59,9 +59,12 @@ class Board
     @board[x][y] = piece
   end
 
-  def move_piece(before, after)
-    place_piece(after)
-    x, y = before
+  # Choose a piece position, then position where it will go
+  # both position parameters are an array
+  def move_piece(before_position, after_position)
+    piece = return_piece(before_position)
+    place_piece(piece, after_position)
+    x, y = before_position
     @board[x][y] = (x + y).even? ? '   '.on_white : '   '.on_black
   end
 
