@@ -44,7 +44,11 @@ class Game
     selected_piece, starting_pos = @current_turn.select_piece(gets.chomp, @board)
     moves = return_valid(selected_piece, starting_pos)
     puts 'Valid movements are: '
-    moves.each { |move| p move }
+    moves.each do |move|
+      x, y = move
+      board.selection_color(board.return_piece(move), x, y)
+      board.print_board
+    end
     selected_move = valid_move(selected_piece)
     @board.move_piece(starting_pos, selected_move)
   end
