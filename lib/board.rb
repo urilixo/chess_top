@@ -82,14 +82,23 @@ class Board
 
   def print_board
     printed = []
-    @board.each do |row|
+    puts `clear`
+    puts '==========================='
+    puts [' \ ', ' 1 ', ' 2 ', ' 3 ', ' 4 ', ' 5 ', ' 6 ', ' 7 ', ' 8 '].join
+    chars = [' a ', ' b ', ' c ', ' d ', ' e ', ' f ', ' g ', ' h ']
+    @board.each_with_index do |row, row_index|
       temp_row = []
-      row.each do |cell|
-        cell = cell.is_a?(Piece) ? background_color(cell) : cell
+      row.each_with_index do |cell, col_index|
+        cell = cell.is_a?(Piece) ? background_color(cell, row_index, col_index) : cell
+        if cell.nil?
+          cell = (row_index + col_index).even? ? '   '.on_white : '   '.on_black
+        end
         temp_row << cell
       end
+      temp_row.prepend(chars[row_index])
       printed << temp_row
     end
     printed.each { |row| puts row.join }
+    puts '==========================='
   end
 end
