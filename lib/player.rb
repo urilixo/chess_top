@@ -23,8 +23,8 @@ class Player
     end
     piece = board.return_piece(position)
     return 'No piece found, please try again.' && select_piece(gets.chomp, board) if piece.nil?
-    
-    piece
+
+    [piece, position]
   end
 
 
