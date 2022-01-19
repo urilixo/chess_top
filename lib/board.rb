@@ -68,9 +68,8 @@ class Board
     @board[x][y] = (x + y).even? ? '   '.on_white : '   '.on_black
   end
 
-  def background_color(piece)
-    x, y = piece.position
-    (x + y).even? ? piece.symbol.black.on_white : piece.symbol.white.on_black
+  def background_color(piece, row, col)
+    (row + col).even? ? piece.symbol.black.on_white : piece.symbol.white.on_black
   end
 
   def find_king(color)
