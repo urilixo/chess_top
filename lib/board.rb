@@ -38,26 +38,25 @@ class Board
 
   def set_pieces(color, rows)
     pawn_row, special_row = rows
-    @board[pawn_row].each_with_index { |_square, index| place_piece(Pawn.new(color, [pawn_row, index])) }
+    @board[pawn_row].each_with_index { |_square, index| place_piece(Pawn.new(color), [pawn_row, index]) }
     # Rooks
-    place_piece(Rook.new(color, [special_row, 0]))
-    place_piece(Rook.new(color, [special_row, 7]))
+    place_piece(Rook.new(color), [special_row, 0])
+    place_piece(Rook.new(color), [special_row, 7])
     # Knights
-    place_piece(Knight.new(color, [special_row, 1]))
-    place_piece(Knight.new(color, [special_row, 6]))
+    place_piece(Knight.new(color), [special_row, 1])
+    place_piece(Knight.new(color), [special_row, 6])
     # Bishops
-    place_piece(Bishop.new(color, [special_row, 2]))
-    place_piece(Bishop.new(color, [special_row, 5]))
+    place_piece(Bishop.new(color), [special_row, 2])
+    place_piece(Bishop.new(color), [special_row, 5])
     # Queen
-    place_piece(Queen.new(color, [special_row, 3]))
+    place_piece(Queen.new(color), [special_row, 3])
     # King
-    place_piece(King.new(color, [special_row, 4]))
+    place_piece(King.new(color), [special_row, 4])
   end
 
-  def place_piece(piece)
-    x, y = piece.position
+  def place_piece(piece, position)
+    x, y = position
     @board[x][y] = piece
-    @kings << piece if piece.is_a?(King)
   end
 
   def move_piece(before, after)
