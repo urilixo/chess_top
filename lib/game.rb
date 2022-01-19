@@ -3,11 +3,35 @@ class Game
   require_relative 'player'
   attr_reader :player1, :player2, :board, :current_turn
 
-  def initialize(player1 = nil, player2 = nil)
-    @player1 = Player.new('white', player1)
-    @player2 = Player.new('black', player2)
-    @board = Board.new
-    @current_turn = @player1
+  def initialize(player1 = nil, player2 = nil, load: false)
+    if load == true
+      load_game
+    else
+      @player1 = Player.new('white', player1)
+      @player2 = Player.new('black', player2)
+      @board = Board.new
+      @current_turn = @player1
+    end
+  end
+
+  def save_game
+    File.open('save_data.yaml', 'w') do |f|
+
+      f.write(@player1.to_yaml)
+      f.write(@player2.to_yaml)
+      f.write(@board.to_yaml)
+      f.write(@current_turn.to_yaml)
+    end
+  end
+
+  def load_game
+    File.open('save_data.yaml', 'r') do |f|
+      array = YAML.load_stream(f)
+      @player1 = array[0]
+      @player2 = array[1]
+      @board = array[2]
+      @current_turn = array[3]
+    end
   end
 
   def end_turn
