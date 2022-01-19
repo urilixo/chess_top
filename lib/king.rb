@@ -1,6 +1,72 @@
 class King < Piece
-  def initialize(color, position)
+  def initialize(color)
     super
     @symbol = @color == 'white' ? ' ♔ ' : ' ♚ '
+    @diagonals = []
+    @orthogonals = []
+    @knight_moves = []
+  end
+
+  def movement(row, col, board)
+    moves = []
+    directions = [[-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [-1, 1], [1, 1], [1, -1]]
+    directions.each do |cell|
+      x, y = cell
+      next if (row + x).negative? || (col + y).negative? || (row + x) > 7 || col + y > 7
+
+      new_position = [row + x, col + y]
+      moves += [new_position] unless same_color?(new_position, board)
+    end
+    moves
+  end
+
+  def check_threats(king_position, board)
+    row, col = king_position
+    update_threats(row, col, board)
+    # Look for pieces that could threaten king around him, of opposite color
+    @diagonals.each do |diagonal|
+      x, y = diagonal
+      if (board.board[x][y].is_a?(Queen) || board.board[x][y].is_a?(Bishop)) && board.board[x][y].color != color
+        return true
+      end
+    end
+    @orthogonals.each do |orthogonal|
+      x, y = orthogonal
+      if (board.board[x][y].is_a?(Queen) || board.board[x][y].is_a?(Rook)) && board.board[x][y].color != color
+        return true
+      end
+    end
+    @knight_moves.each do |l_move|
+      x, y = l_move
+      return true if board.board[x][y].is_a?(Knight) && board.board[x][y].color != color
+    end
+    false
+  end
+
+  def update_threats(row, col, board)
+    diagonals = [[-1, -1], [-1, 1], [1, 1], [1, -1]]
+    orthogonals = [[0, -1], [1, 0], [-1, 0], [0, 1]]
+    knight_moves = [[-1, -2], [-2, -1], [-2, 1], [-1, 2], [1, 2], [2, 1], [2, -1], [1, -2]]
+    @orthogonals = threat_directions(row, col, orthogonals, board)
+    @diagonals = threat_directions(row, col, diagonals, board)
+    @knight_moves = knight_threat(row, col, knight_moves)
+  end
+
+  def knight_threat(row, col, directions)
+    threats = []
+    directions.each do |vector|
+      x, y = vector
+      next if (row + x).negative? || (col + y).negative? || (row + x) > 7 || col + y > 7
+
+      new_position = [row + x, col + y]
+      threats += [new_position]
+    end
+    threats
+  end
+
+  def threat_directions(row, col, directions, board)
+    threats = []
+    directions.each { |vector| threats += scan_for_threats(row, col, vector, board)}
+    threats
   end
 end
