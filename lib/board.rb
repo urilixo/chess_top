@@ -73,8 +73,10 @@ class Board
   end
 
   def find_king(color)
-    @kings.each do |king|
-      king if king.color == color
+    @board.each_with_index do |rows, row|
+      rows.each_with_index do |cell, col|
+        return [cell, [row, col]] if cell.is_a?(King) && cell.color == color
+      end
     end
   end
 
