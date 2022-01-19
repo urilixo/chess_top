@@ -2,11 +2,9 @@ class Board
   require 'colorize'
   require 'yaml'
   require_relative 'piece'
-  attr_accessor :kings
-  attr_reader :board
+  attr_accessor :board
 
   def initialize(rows: 8, columns: 8)
-    @kings = []
     new_board(rows, columns)
   end
 
