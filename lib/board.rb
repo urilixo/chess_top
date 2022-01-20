@@ -2,6 +2,13 @@ class Board
   require 'colorize'
   require 'yaml'
   require_relative 'piece'
+  require_relative 'rook'
+  require_relative 'knight'
+  require_relative 'bishop'
+  require_relative 'pawn'
+  require_relative 'queen'
+  require_relative 'king'
+
   attr_accessor :board
 
   def initialize(rows: 8, columns: 8)
