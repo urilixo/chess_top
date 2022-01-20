@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class Piece
-  attr_accessor :color, :valid_movements
-  attr_reader :symbol
+  attr_accessor :color, :valid_movements, :symbol
 
   def initialize(color)
     @color = color
