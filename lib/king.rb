@@ -2,14 +2,31 @@ class King < Piece
   def initialize(color)
     super
     @symbol = @color == 'white' ? ' ♔ ' : ' ♚ '
+    @first_move = true
     @diagonals = []
     @orthogonals = []
     @knight_moves = []
   end
 
+  def valid_castle(board, row, col)
+    movements = []
+    # King side castle
+    if board[row][col + 3].is_a?(Rook) && board[row][col + 3].first_move
+      movements.append([0, 2]) unless board[row][col + 1].is_a?(Piece) || board[row][col + 2].is_a?(Piece)
+    end
+    # Queen side castle
+    if board[row][col - 4].is_a?(Rook) && board[row][col - 4].first_move
+      unless board[row][col - 1].is_a?(Piece) || board[row][col - 2].is_a?(Piece) || board[row][col - 3].is_a?(Piece)
+        movements.append([0, -2])
+      end
+    end
+    movements
+  end
+
   def movement(row, col, board)
     moves = []
     directions = [[-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [-1, 1], [1, 1], [1, -1]]
+    directions += valid_castle(board.board, row, col) if @first_move
     directions.each do |cell|
       x, y = cell
       next if (row + x).negative? || (col + y).negative? || (row + x) > 7 || col + y > 7
@@ -17,6 +34,7 @@ class King < Piece
       new_position = [row + x, col + y]
       moves += [new_position] unless same_color?(new_position, board)
     end
+    @first_move = false
     moves
   end
 
