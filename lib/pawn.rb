@@ -19,6 +19,7 @@ class Pawn < Piece
       moves += [new_position] unless board.board[row + x][col + y].is_a?(Piece)
       moves += [new_position] if board.board[row + x][col + y].is_a?(Piece) && y != 0
     end
+    @first_move = false
     moves
   end
 
