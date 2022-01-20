@@ -1,4 +1,6 @@
 class King < Piece
+  attr_accessor :first_move
+  
   def initialize(color)
     super
     @symbol = @color == 'white' ? ' ♔ ' : ' ♚ '
@@ -34,7 +36,6 @@ class King < Piece
       new_position = [row + x, col + y]
       moves += [new_position] unless same_color?(new_position, board)
     end
-    @first_move = false
     moves
   end
 
