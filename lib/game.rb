@@ -52,6 +52,7 @@ class Game
     selected_move = valid_move(selected_piece)
     @board.reset_background
     @board.move_piece(starting_pos, selected_move)
+    @board.promotion
   end
 
   def valid_move(piece)
