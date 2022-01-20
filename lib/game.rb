@@ -50,6 +50,7 @@ class Game
       board.print_board
     end
     selected_move = valid_move(selected_piece)
+    @board.reset_background
     @board.move_piece(starting_pos, selected_move)
   end
 
