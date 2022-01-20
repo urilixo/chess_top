@@ -6,6 +6,7 @@ class Board
 
   def initialize(rows: 8, columns: 8)
     new_board(rows, columns)
+    set_starting_pieces
   end
 
   def new_board(rows, columns)
@@ -26,8 +27,8 @@ class Board
   end
 
   def set_starting_pieces
-    set_black_pieces('black', [1, 0])
-    set_white_pieces('white', [6, 7])
+    set_pieces('black', [1, 0])
+    set_pieces('white', [6, 7])
   end
   
   # TODO: Give out error if cell doesn't contain a Piece
