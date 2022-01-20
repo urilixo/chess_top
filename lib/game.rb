@@ -45,7 +45,6 @@ class Game
   def game_loop
     until @checkmate
       @board.print_board
-      #player = @player1.color == @current_turn ? @player1 : @player2
       puts "#{@current_turn.name}'s turn, pick a piece to move:"
       selected_piece, starting_pos = @current_turn.select_piece(board)
       moves = return_valid(selected_piece, starting_pos)
@@ -60,12 +59,30 @@ class Game
         next
       end
       selected_move = valid_move(selected_piece)
+      if selected_piece.is_a?(Rook) || selected_piece.is_a?(Pawn) || selected_piece.is_a?(King)
+        selected_piece.first_move = false
+      end
       @board.reset_background
       @board.move_piece(starting_pos, selected_move)
       @board.promotion
       @board.print_board
       end_turn
+      next unless checkmate?
+
+      @checkmate = true
+      puts 'Checkmate!'
+      sleep(5)
     end
+  end
+
+  def checkmate?
+    valid_moves = []
+    @board.board.each_with_index do |rows, row|
+      rows.each_with_index do |cell, col|
+        valid_moves += return_valid(cell, [row, col]) if cell.is_a?(Piece) && cell.color == @current_turn.color
+      end
+    end
+    valid_moves.empty?
   end
 
   def valid_move(piece)
