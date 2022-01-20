@@ -59,13 +59,42 @@ class Board
     @board[x][y] = piece
   end
 
+  def castle(king, after_position)
+    x, y = after_position
+    rook = y > 4 ? return_piece([x, y + 1]) : return_piece([x, y - 2])
+    @board[x][y] = king
+    if y > 4
+      place_piece(rook, [x, y - 1])
+      @board[x][7] = (x + 7).even? ? '   '.on_white : '   '.on_black
+    else
+      place_piece(rook, [x, y + 1])
+      @board[x][0] = (x + 0).even? ? '   '.on_white : '   '.on_black
+    end
+  end
   # Choose a piece position, then position where it will go
   # both position parameters are an array
   def move_piece(before_position, after_position)
-    piece = return_piece(before_position)
-    place_piece(piece, after_position)
     x, y = before_position
+    piece = return_piece(before_position)
+    if piece.is_a?(King) && (before_position[0] - after_position[0]).zero? && (after_position[1] - before_position[1]).abs != 1
+      @board[x][y] = (x + y).even? ? '   '.on_white : '   '.on_black
+      return castle(piece, after_position)
+    end
+
+    place_piece(piece, after_position)
     @board[x][y] = (x + y).even? ? '   '.on_white : '   '.on_black
+  end
+
+  def reset_background
+    @board.each_with_index do |rows, row|
+      rows.each_with_index do |_cols, col|
+        unless @board[row][col].is_a?(Piece)
+          @board[row][col] = (row + col).even? ? '   '.on_white : '   '.on_black
+          next
+        end
+        @board[row][col].symbol = (row + col).even? ? @board[row][col].symbol.black.on_white : @board[row][col].symbol.white.on_black
+      end
+    end
   end
 
   def background_color(piece, row, col)
@@ -73,7 +102,7 @@ class Board
       return @board[row][col] = (row + col).even? ? '   '.on_white : '   '.on_black
     end
 
-    @board[row][col] = (row + col).even? ? piece.symbol.black.on_white : piece.symbol.white.on_black
+    @board[row][col].symbol = (row + col).even? ? piece.symbol.black.on_white : piece.symbol.white.on_black
   end
 
   def selection_color(piece, row, col)
@@ -81,7 +110,7 @@ class Board
       return @board[row][col] = (row + col).even? ? '   '.on_light_yellow : '   '.on_yellow
     end
 
-    @board[row][col] = (row + col).even? ? piece.symbol.black.on_yellow : piece.symbol.white.on_yellow
+    @board[row][col].symbol = (row + col).even? ? piece.symbol.black.on_yellow : piece.symbol.white.on_yellow
   end
 
   def find_king(color)
