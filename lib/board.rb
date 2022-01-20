@@ -36,6 +36,15 @@ class Board
     @board[row][col] if @board[row][col].is_a?(Piece)
   end
 
+  def promotion
+    @board[0].each_with_index do |cell, cell_index|
+      @board[0][cell_index] = Queen.new(cell.color) if cell.is_a?(Pawn)
+    end
+    @board[7].each_with_index do |cell, cell_index|
+      @board[7][cell_index] = Queen.new(cell.color) if cell.is_a?(Pawn)
+    end
+  end
+
   def set_pieces(color, rows)
     pawn_row, special_row = rows
     @board[pawn_row].each_with_index { |_square, index| place_piece(Pawn.new(color), [pawn_row, index]) }
@@ -71,6 +80,7 @@ class Board
       @board[x][0] = (x + 0).even? ? '   '.on_white : '   '.on_black
     end
   end
+
   # Choose a piece position, then position where it will go
   # both position parameters are an array
   def move_piece(before_position, after_position)
